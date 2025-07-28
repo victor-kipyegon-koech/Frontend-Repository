@@ -4,10 +4,10 @@ import { BookingCard } from '@/components/bookings/BookingCard';
 import { useBookings } from '@/hooks/useApi';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { Ticket, Download, Calendar, Filter } from 'lucide-react';
+import { Ticket,  Filter } from 'lucide-react';
 import { useState } from 'react';
 
 export const MyBookingsPage: React.FC = () => {
@@ -20,7 +20,7 @@ export const MyBookingsPage: React.FC = () => {
     return booking.status === statusFilter;
   });
 
-  const handleDownloadTicket = (bookingId: number) => {
+  const handleDownloadTicket = () => {
     // Simulate ticket download
     toast.success('Ticket downloaded successfully!');
   };

@@ -9,7 +9,7 @@ import {
   MapPin, 
   Users, 
   Search, 
-  Calendar,
+  
   Star,
   ArrowRight,
   Building,

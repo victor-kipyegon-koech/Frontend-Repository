@@ -15,7 +15,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import {
-  Search, MessageSquare, Clock, CheckCircle, User, Calendar, Eye, MessageCircle,
+  Search, MessageSquare, Clock, CheckCircle, User, Calendar,  MessageCircle,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext'; // ✅ make sure this is your actual path
 

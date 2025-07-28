@@ -2,17 +2,17 @@
   import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Button } from '../components/ui/button';
-import { Badge } from '../components/ui/badge';
+// import { Badge } from '../components/ui/badge';
 import { useAuth } from '../context/AuthContext';
 import { useBookings } from '../hooks/useApi';
 import { Link } from 'react-router-dom';
-import { Calendar, Ticket, User, DollarSign, Clock, MapPin, ArrowRight, TrendingUp } from 'lucide-react';
+import { Calendar, Ticket, User, DollarSign,  TrendingUp } from 'lucide-react';
 import { Input } from '../components/ui/input';
 import { toast } from 'sonner';
 
 export const UserDashboard: React.FC = () => {
   const { user } = useAuth();
-  const { bookings, loading } = useBookings(user?.userId);
+  const { bookings,  } = useBookings(user?.userId);
 
   const upcomingBookings = bookings.filter(booking => {
     const eventDate = new Date(booking.event?.date || '');

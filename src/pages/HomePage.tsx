@@ -16,7 +16,7 @@ import {
   CheckCircle,
   Clock,
   DollarSign,
-  Play,
+  
   Shield,
   Zap,
   Heart
@@ -24,7 +24,7 @@ import {
 
 export const HomePage: React.FC = () => {
   const { events, loading } = useEvents();
-  const { isAuthenticated } = useAuth();
+  const {  } = useAuth();
   
   const featuredEvents = events.slice(0, 3);
 

@@ -11,7 +11,7 @@ import {
   Users, 
   MapPin, 
   Ticket, 
-  Star, 
+  
   ArrowRight,
   CheckCircle,
   Clock,

@@ -9,8 +9,8 @@ import {
   Calendar,
   Ticket,
   Users,
-  Settings,
-  Home,
+  
+  
   LogOut,
   TrendingUp,
   UserCheck,

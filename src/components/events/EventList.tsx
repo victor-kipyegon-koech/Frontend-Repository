@@ -1,10 +1,12 @@
-//  import React, { useState } from 'react';
  
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
-// import { EventCard } from './EventCard';
-// import { Event } from '../../types';
+// import React, { useState } from 'react';
+// import { Input } from '@/components/ui/input';
+
+// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+// import { Event } from '@/types';
 // import { Search, Filter } from 'lucide-react';
-// import { Input } from '../ui/input';
+// import {EventCard} from './EventCard'
 
 // interface EventListProps {
 //   events: Event[];
@@ -108,14 +110,19 @@
 //     </div>
 //   );
 // };
-import React, { useState } from 'react';
+ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import { Event } from '@/types';
 import { Search, Filter } from 'lucide-react';
-import {EventCard} from './EventCard'
+import { EventCard } from './EventCard';
 
 interface EventListProps {
   events: Event[];
@@ -127,13 +134,20 @@ export const EventList: React.FC<EventListProps> = ({ events, onBookEvent }) => 
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [sortBy, setSortBy] = useState('date');
 
-  const categories = Array.from(new Set(events.map(event => event.category).filter(Boolean)));
+  // Normalize category list to strings
+  const categories = Array.from(
+    new Set(events.map((event) => String(event.category)).filter(Boolean))
+  );
 
   const filteredEvents = events
-    .filter(event => {
-      const matchesSearch = event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          event.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = categoryFilter === 'all' || event.category === categoryFilter;
+    .filter((event) => {
+      const matchesSearch =
+        event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        event.description?.toLowerCase().includes(searchTerm.toLowerCase());
+
+      const matchesCategory =
+        categoryFilter === 'all' || String(event.category) === categoryFilter;
+
       return matchesSearch && matchesCategory;
     })
     .sort((a, b) => {
@@ -141,7 +155,7 @@ export const EventList: React.FC<EventListProps> = ({ events, onBookEvent }) => 
         case 'date':
           return new Date(a.date).getTime() - new Date(b.date).getTime();
         case 'price':
-          return parseFloat(a.ticketPrice) - parseFloat(b.ticketPrice);
+          return a.ticketPrice - b.ticketPrice; // ✅ ticketPrice is number
         case 'popularity':
           return b.ticketsSold - a.ticketsSold;
         default:
@@ -163,22 +177,22 @@ export const EventList: React.FC<EventListProps> = ({ events, onBookEvent }) => 
               className="pl-10"
             />
           </div>
-          
+
           <Select value={categoryFilter} onValueChange={setCategoryFilter}>
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue placeholder="Category" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Categories</SelectItem>
-              {categories.map(category => (
-                <SelectItem key={category} value={category!}>
+              {categories.map((category) => (
+                <SelectItem key={category} value={String(category)}>
                   {category}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-        
+
         <Select value={sortBy} onValueChange={setSortBy}>
           <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Sort by" />
@@ -199,7 +213,7 @@ export const EventList: React.FC<EventListProps> = ({ events, onBookEvent }) => 
       {/* Events Grid */}
       {filteredEvents.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredEvents.map(event => (
+          {filteredEvents.map((event) => (
             <EventCard
               key={event.eventId}
               event={event}

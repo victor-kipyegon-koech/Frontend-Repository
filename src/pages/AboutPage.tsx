@@ -9,11 +9,11 @@ import {
   Users, 
   Target, 
   Heart, 
-  Award,
+  
   Calendar,
   MapPin,
-  Ticket,
-  Star,
+  
+
   ArrowRight,
   CheckCircle,
   Globe,
