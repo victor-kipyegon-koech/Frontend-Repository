@@ -44,7 +44,7 @@ export const useEvents = () => {
   };
 
   const updateEvent = async (eventId: number, eventData: Partial<Event>) => {
-    const res = await fetch(`${API_BASE}/events/${eventId}`, {
+    const res = await fetch(`${API_BASE}/api/events/${eventId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(eventData),
@@ -58,7 +58,7 @@ export const useEvents = () => {
   };
 
   const deleteEvent = async (eventId: number) => {
-    const res = await fetch(`${API_BASE}/events/${eventId}`, {
+    const res = await fetch(`${API_BASE}/api/events/${eventId}`, {
       method: 'DELETE',
     });
     if (!res.ok) throw new Error('Failed to delete event');
@@ -84,7 +84,7 @@ export const useVenues = () => {
   useEffect(() => {
     const fetchVenues = async () => {
       try {
-        const res = await fetch(`${API_BASE}/venues`);
+        const res = await fetch(`${API_BASE}/api/venues`);
         if (!res.ok) throw new Error('Failed to fetch venues');
         const data = await res.json();
         setVenues(data);
@@ -101,7 +101,7 @@ export const useVenues = () => {
   const createVenue = async (
     venueData: Omit<Venue, 'venueId' | 'createdAt'>
   ) => {
-    const res = await fetch(`${API_BASE}/venues`, {
+    const res = await fetch(`${API_BASE}/api/venues`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(venueData),
@@ -113,7 +113,7 @@ export const useVenues = () => {
   };
 
   const updateVenue = async (venueId: number, venueData: Partial<Venue>) => {
-    const res = await fetch(`${API_BASE}/venues/${venueId}`, {
+    const res = await fetch(`${API_BASE}/api/venues/${venueId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(venueData),
@@ -127,7 +127,7 @@ export const useVenues = () => {
   };
 
   const deleteVenue = async (venueId: number) => {
-    const res = await fetch(`${API_BASE}/venues/${venueId}`, {
+    const res = await fetch(`${API_BASE}/api/venues/${venueId}`, {
       method: 'DELETE',
     });
     if (!res.ok) throw new Error('Failed to delete venue');
@@ -158,7 +158,7 @@ export const useBookings = (userId?: number, status?: string) => {
         if (status && status !== 'all') params.append('status', status);
 
         const query = params.toString() ? `?${params.toString()}` : '';
-        const res = await fetch(`${API_BASE}/bookings${query}`);
+        const res = await fetch(`${API_BASE}/api/bookings${query}`);
         if (!res.ok) throw new Error('Failed to fetch bookings');
         const data = await res.json();
         setBookings(data);
@@ -177,7 +177,7 @@ export const useBookings = (userId?: number, status?: string) => {
   const createBooking = async (
     bookingData: Omit<Booking, 'bookingId' | 'createdAt' | 'updatedAt'>
   ) => {
-    const res = await fetch(`${API_BASE}/bookings`, {
+    const res = await fetch(`${API_BASE}/api/bookings`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(bookingData),
@@ -192,7 +192,7 @@ export const useBookings = (userId?: number, status?: string) => {
     bookingId: number,
     status: Booking['status']
   ) => {
-    const res = await fetch(`${API_BASE}/bookings/${bookingId}/status`, {
+    const res = await fetch(`${API_BASE}/api/bookings/${bookingId}/status`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
