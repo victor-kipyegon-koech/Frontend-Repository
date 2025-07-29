@@ -1,5 +1,3 @@
- 
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { User, AuthState } from '@/types';
 
@@ -32,6 +30,9 @@ export const useAuth = () => {
   return context;
 };
 
+// ✅ API base from .env
+const API_BASE = import.meta.env.VITE_API_BASE_URL;
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>({
     user: null,
@@ -60,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const register = async (userData: RegisterData): Promise<User> => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch(`${API_BASE}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -90,11 +91,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (
     email: string,
-    password: string,
-    // userType: 'member' | 'admin' = 'member'
+    password: string
   ) => {
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch(`${API_BASE}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -139,7 +139,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!authState.user) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/users/${authState.user.userId}`, {
+      const res = await fetch(`${API_BASE}/users/${authState.user.userId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -152,8 +152,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       const data = await res.json();
       const updatedUser = {
-        ...authState.user, // ✅ Preserve current fields like userType, userId
-        ...data,           // ✅ Overwrite with backend updates
+        ...authState.user,
+        ...data,
       };
 
       localStorage.setItem('user', JSON.stringify(updatedUser));
@@ -171,7 +171,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     try {
       const res = await fetch(
-        `http://localhost:5000/api/users/${authState.user.userId}/change-password`,
+        `${API_BASE}/users/${authState.user.userId}/change-password`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
