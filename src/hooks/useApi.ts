@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Event, Venue, Booking, DashboardStats } from '../types';
 
 // const API_BASE = 'http://localhost:5000';
-const API_BASE = 'https://backend-repository-j337.onrender.com/';
+const API_BASE = 'https://backend-repository-u0bj.onrender.com/';
 
 // ----------------------------- EVENTS -----------------------------
 export const useEvents = () => {
