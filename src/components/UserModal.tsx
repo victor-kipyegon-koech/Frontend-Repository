@@ -1,4 +1,5 @@
-//  import React, { useEffect, useState } from 'react';
+ 
+// import React, { useEffect, useState } from 'react';
 // import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 // import { Input } from '@/components/ui/input';
 // import { Button } from '@/components/ui/button';
@@ -30,9 +31,15 @@
 // }) => {
 //   const [formData, setFormData] = useState<Partial<User>>(initialData);
 
+//   // ✅ Fix: Only update formData if initialData actually changed
 //   useEffect(() => {
-//     setFormData(initialData);
-//   }, [initialData]);
+//     if (open) {
+//       setFormData((prev) => {
+//         const hasChanged = JSON.stringify(prev) !== JSON.stringify(initialData);
+//         return hasChanged ? initialData : prev;
+//       });
+//     }
+//   }, [open, initialData]);
 
 //   const handleChange = (field: keyof User, value: string) => {
 //     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -106,7 +113,7 @@
 //               disabled={readOnly}
 //               required
 //             >
-//               <option value="">Select type</option>
+//               <option value="" disabled>Select type</option>
 //               <option value="member">Member</option>
 //               <option value="admin">Admin</option>
 //             </select>
@@ -157,15 +164,27 @@ export const UserModal: React.FC<UserModalProps> = ({
   initialData = {},
   readOnly = false,
 }) => {
-  const [formData, setFormData] = useState<Partial<User>>(initialData);
+  const [formData, setFormData] = useState<Partial<User>>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    contactPhone: '',
+    userType: '',
+  });
 
-  // ✅ Fix: Only update formData if initialData actually changed
   useEffect(() => {
     if (open) {
-      setFormData((prev) => {
-        const hasChanged = JSON.stringify(prev) !== JSON.stringify(initialData);
-        return hasChanged ? initialData : prev;
-      });
+      if (initialData?.userId) {
+        setFormData(initialData);
+      } else {
+        setFormData({
+          firstName: '',
+          lastName: '',
+          email: '',
+          contactPhone: '',
+          userType: '',
+        });
+      }
     }
   }, [open, initialData]);
 
@@ -173,16 +192,33 @@ export const UserModal: React.FC<UserModalProps> = ({
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const isEmailValid = (email: string = '') =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  const isFormValid =
+    !!formData.firstName?.trim() &&
+    !!formData.lastName?.trim() &&
+    isEmailValid(formData.email) &&
+    !!formData.contactPhone?.trim() &&
+    !!formData.userType;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isFormValid) return;
     onSubmit(formData);
   };
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white">
+      <DialogContent className="bg-white dark:bg-gray-900 text-gray-800 dark:text-white max-w-md">
         <DialogHeader>
-          <DialogTitle>{readOnly ? 'View User' : initialData?.userId ? 'Edit User' : 'Add New User'}</DialogTitle>
+          <DialogTitle>
+            {readOnly
+              ? 'View User'
+              : initialData?.userId
+              ? 'Edit User'
+              : 'Add New User'}
+          </DialogTitle>
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -218,6 +254,9 @@ export const UserModal: React.FC<UserModalProps> = ({
               disabled={readOnly}
               required
             />
+            {formData.email && !isEmailValid(formData.email) && (
+              <p className="text-sm text-red-500 mt-1">Invalid email address</p>
+            )}
           </div>
 
           <div>
@@ -241,7 +280,9 @@ export const UserModal: React.FC<UserModalProps> = ({
               disabled={readOnly}
               required
             >
-              <option value="" disabled>Select type</option>
+              <option value="" disabled>
+                Select type
+              </option>
               <option value="member">Member</option>
               <option value="admin">Admin</option>
             </select>
@@ -252,7 +293,11 @@ export const UserModal: React.FC<UserModalProps> = ({
               <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
               </Button>
-              <Button type="submit" className="bg-blue-600 text-white hover:bg-blue-700">
+              <Button
+                type="submit"
+                className="bg-blue-600 text-white hover:bg-blue-700"
+                disabled={!isFormValid}
+              >
                 Save
               </Button>
             </div>
