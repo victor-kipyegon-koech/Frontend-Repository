@@ -28,6 +28,7 @@ import { AdminSupportPage } from '@/pages/AdminSupportPage';
 import { AdminPaymentsPage } from '@/pages/AdminPaymentPage';
 
 import './App.css';
+import UserSupportPage from './pages/UserSupportPage';
 
 // 🔐 Route protection component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({
@@ -78,6 +79,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
         <Route path="/my-bookings" element={<ProtectedRoute><MyBookingsPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
+        <Route path="/support" element={<UserSupportPage />} />
         <Route
           path="/support"
           element={

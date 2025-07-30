@@ -1,44 +1,4 @@
-//  const API_BASE = 'http://localhost:5000/api/events';
-
-// export const getAllEvents = async () => {
-//   const res = await fetch(API_BASE);
-//   if (!res.ok) throw new Error('Failed to fetch events');
-//   return res.json();
-// };
-
-// export const getEventById = async (id: number) => {
-//   const res = await fetch(`${API_BASE}/${id}`);
-//   if (!res.ok) throw new Error('Failed to fetch event');
-//   return res.json();
-// };
-
-// export const createEvent = async (eventData: any) => {
-//   const res = await fetch(API_BASE, {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(eventData),
-//   });
-//   if (!res.ok) throw new Error('Failed to create event');
-//   return res.json();
-// };
-
-// export const updateEvent = async (id: number, updatedData: any) => {
-//   const res = await fetch(`${API_BASE}/${id}`, {
-//     method: 'PUT',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(updatedData),
-//   });
-//   if (!res.ok) throw new Error('Failed to update event');
-//   return res.json();
-// };
-
-// export const deleteEvent = async (id: number) => {
-//   const res = await fetch(`${API_BASE}/${id}`, {
-//     method: 'DELETE',
-//   });
-//   if (!res.ok) throw new Error('Failed to delete event');
-//   return res.json();
-// };
+ 
   const API_BASE = 'http://localhost:5000/api/events';
 
 // Attach token if available
