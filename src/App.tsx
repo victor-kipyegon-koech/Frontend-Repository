@@ -1,12 +1,11 @@
- 
-import React from 'react';
+ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import { Layout } from '@/components/layout/Layout';
-import { Toaster } from 'sonner'; 
+import { Toaster } from 'sonner';
+
 import { UserProfilePage } from './pages/userProfilePage';
 import { AdminProfilePage } from './pages/AdminProfilePage';
-
 
 // Pages
 import { HomePage } from '@/pages/HomePage';
@@ -16,6 +15,7 @@ import { LoginForm } from '@/components/auth/LoginForm';
 import { RegisterForm } from '@/components/auth/RegisterForm';
 import { UserDashboard } from '@/pages/UserDashboard';
 import { MyBookingsPage } from '@/pages/MyBookingsPage';
+import UserSupportPage from './pages/UserSupportPage';
 
 // Admin Pages
 import { AdminDashboard } from '@/pages/AdminDashboard';
@@ -28,7 +28,6 @@ import { AdminSupportPage } from '@/pages/AdminSupportPage';
 import { AdminPaymentsPage } from '@/pages/AdminPaymentPage';
 
 import './App.css';
-import UserSupportPage from './pages/UserSupportPage';
 
 // 🔐 Route protection component
 const ProtectedRoute: React.FC<{ children: React.ReactNode; adminOnly?: boolean }> = ({
@@ -79,20 +78,7 @@ function AppRoutes() {
         <Route path="/dashboard" element={<ProtectedRoute><UserDashboard /></ProtectedRoute>} />
         <Route path="/my-bookings" element={<ProtectedRoute><MyBookingsPage /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><UserProfilePage /></ProtectedRoute>} />
-        <Route path="/support" element={<UserSupportPage />} />
-        <Route
-          path="/support"
-          element={
-            <ProtectedRoute>
-              <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Support Center</h1>
-                  <p className="text-gray-600">Contact support for help with your bookings</p>
-                </div>
-              </div>
-            </ProtectedRoute>
-          }
-        />
+        <Route path="/support" element={<ProtectedRoute><UserSupportPage /></ProtectedRoute>} />
 
         {/* 🔐 Admin Routes */}
         <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
@@ -104,7 +90,6 @@ function AppRoutes() {
         <Route path="/admin/support" element={<ProtectedRoute adminOnly><AdminSupportPage /></ProtectedRoute>} />
         <Route path="/admin/payments" element={<ProtectedRoute adminOnly><AdminPaymentsPage /></ProtectedRoute>} />
         <Route path="/admin/profile" element={<ProtectedRoute adminOnly><AdminProfilePage /></ProtectedRoute>} />
-
 
         {/* ❌ Fallback for unknown paths */}
         <Route path="*" element={<Navigate to="/" replace />} />
